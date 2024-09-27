@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册页面</title>
+
+    <style> 
+    *{
+          margin:0;
+          padding:0;
+          box-sizing:border-box;
+    }
+    
+       body{
+            background-image:url(../images/background.jpg);
+            background-size: 100%;
+       }
+         div{
+        margin:20px 0px;
+       } 
+    
+      .log{
+        display:flex;
+        /* flex-direction:column;
+        align-items:center */
+        width: 500px;
+        height: 350px;
+        background-color:rgba(248, 246, 244, 0.935);
+        border-radius: 10px;
+        position: absolute;
+        left:50%;
+        top:5%;
+        transform:translate(-50%);
+        box-shadow: 5px 5px 5px 2px rgba(0,0,0,0.5);
+        /* overflow: hidden; */
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+
+
+      }    
+     
+        
+      .log .logo{
+        width: 44px;
+        height: 44px;
+        background-image:url(../images/logo.jpg);
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 2px rgba(0,0,0,0.5);
+       
+    
+        
+      }
+
+      .log .nav{
+        display:flex;
+        width: 250px;
+        height: 30px;
+
+      }
+      .log .nav a{
+        height: 30px;
+        line-height:30px;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+        flex:1;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .log .nav  .active{
+        border-bottom:2px solid black;
+      }
+
+      input{
+        /* 背景透明 */
+         background-color: transparent;
+        border:none;
+        border-bottom:1px solid black ;
+       
+      }
+     
+      .sp1,.sp2{
+        color:red;
+        font-size:12px;
+      }
+      button{
+        background-color:rgba(248, 246, 244, 0.935);
+        width: 100px;
+        cursor:pointer;
+      }
+      .log  .btn2{
+        display:none;
+      }
+      img{
+        width:25px;
+        margin-right: 20px;
+        cursor: pointer;
+      }
+      .log .Password{
+        display:none;
+        margin-left:45px;
+      }
+
+    </style>
+</head>
+<body>
+  <div class="log">
+    <div class="logo"></div>
+    <div class="nav"> 
+      <a href=""  class="active" >登录</a>
+      <a href="./registerpage.html"  >注册</a>
+    </div>
+    <!-- <div class="log">    -->
+      <!-- <div class="logo"></div> -->
+     
+      <div class="Mailbox">
+        <span class="tip1">邮箱:</span>
+        <br>
+        <input type="text" class="mailbox" > 
+        <br>
+        <span class="sp1"></span>
+      </div>
+     
+      <button class="btn1"> 继续</button>
+      
+      <div class="Password">
+        <span> 密码:</span>
+        <br>
+        <input type="password" class="password"> 
+        <img src="../images/eyeclose.jpg"  class="eyeicon" alt="">
+        <br>
+        <span class="sp2"></span>
+      </div>
+     
+      <button class="btn2"> 登录</button>
+    
+  </div>  
+    <script>    
+        const btn1=document.querySelector('.btn1');
+        const btn2=document.querySelector('.btn2');
+        const log=document.querySelector('.log');
+        const Password=document.querySelector('.Password');
+        btn1.addEventListener('click',function(){
+            Password.style.display='block';
+            log.style.height='600px';
+            log.style.transition='all 1s ease-in-out';
+            btn2.style.display='block';
+            //隐藏btn1
+            btn1.style.display='none';
+        });
+        const mailbox=document.querySelector('.log .Mailbox .mailbox');
+        const password=document.querySelector('.log .Password .password');
+        const eyeicon=document.querySelector('.log .Password .eyeicon');
+        eyeicon.addEventListener('click',function(){
+            if(password.type==='password'){
+                password.type='text';
+                eyeicon.src='../images/eyeopen.jpg';
+            }
+            else{
+                password.type='password';
+                eyeicon.src='../images/eyeclose.jpg';
+            }
+        });
+        function verifymailbox(){
+            // const content=mailbox.nextElementSibling;//表示只获取mailbox的下一个兄弟--即其下方的span标签,但我给不同的span标签设置了不同的class,所以这里不能用下一个兄弟,只能用下一个元素
+            // 而且我在mailbox下方添加了<br>,所以用nextElementSibling获取不到span
+            const reg=/@(outlook|163|126|qq|sohu|sina|139|icloud|yahoo)\.com$/i;
+          if(!reg.test(mailbox.value)){
+            document.querySelector('.log .Mailbox .sp1').innerHTML='邮箱格式不正确';
+            content.innerHTML='邮箱格式不正确';
+            return false;
+          }
+          document.querySelector('.log .Mailbox .sp1').innerHTML='';
+          return true;
+        }
+        mailbox.addEventListener('input',verifymailbox);
+        const arr=[{mailbox:localStorage.getItem('mailbox'),password:localStorage.getItem('password')},{mailbox:'aaa@163.com',password:'666000'},{mailbox:'bbb@qq.com',password:'222333'}];
+        function verifypass(){
+             
+           for(let i=0;i<arr.length;i++){
+               if(arr[i].mailbox===mailbox.value&&arr[i].password===password.value){
+
+                  return true;
+               }
+               else{
+                return false;
+               }
+           }
+           
+       }
+       btn2.addEventListener('click',verifypass);
+       btn2.addEventListener('click',function(e){
+        if(verifypass()){
+            alert('登录成功');
+            location.href='./index1.html';
+        }
+        else{
+          document.querySelector('.sp2').innerHTML='邮箱或密码错误';
+          e.preventDefault();
+        }
+       });
+
+    </script>
+
+
+
+
+</body>
+</html>
